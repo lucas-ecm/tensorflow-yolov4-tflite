@@ -89,7 +89,7 @@ def save_tf():
                                                                   final_sparsity=FLAGS.final_sparsity,
                                                                   begin_step=0,
                                                                   end_step=end_step)
-  #}
+  }
 
   def apply_pruning_to_dense(layer):
     if isinstance(layer, tf.keras.layers.Conv2D):
