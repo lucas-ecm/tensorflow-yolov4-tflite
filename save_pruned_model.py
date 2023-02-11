@@ -99,7 +99,7 @@ def save_tf():
   # Use `tf.keras.models.clone_model` to apply `apply_pruning_to_dense` 
   # to the layers of the model.
   model_for_pruning = tf.keras.models.clone_model(
-      base_model,
+      model,
       clone_function=apply_pruning_to_dense,
   )
 
