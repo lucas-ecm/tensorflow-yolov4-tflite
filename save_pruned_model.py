@@ -84,7 +84,7 @@ def save_tf():
 
   # Helper function uses `prune_low_magnitude` to make only the 
   # Dense layers train with pruning.
-   pruning_params = {
+  pruning_params = {
          'pruning_schedule': tfmot.sparsity.keras.PolynomialDecay(initial_sparsity=FLAGS.initial_sparsity,
                                                                   final_sparsity=FLAGS.final_sparsity,
                                                                   begin_step=0,
