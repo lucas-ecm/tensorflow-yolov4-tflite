@@ -60,8 +60,9 @@ def save_tf():
   epochs = 2
   validation_split = 0.1 # 10% of training set will be used for validation set. 
 
-  num_images = train_images.shape[0] * (1 - validation_split)
-  end_step = np.ceil(num_images / batch_size).astype(np.int32) * epochs
+  #num_images = train_images.shape[0] * (1 - validation_split)
+  #end_step = np.ceil(num_images / batch_size).astype(np.int32) * epochs
+  end_step = 1000
 
   # Define model for pruning.
   pruning_params = {
