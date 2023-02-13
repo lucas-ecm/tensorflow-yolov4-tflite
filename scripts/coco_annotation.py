@@ -42,7 +42,7 @@ def convert_annotation(output, data, data_type = "val"):
                 for key, value in objects.items():
                     if key == 'num_obj': continue
                     if value["name"] not in class_names:
-                        class_ind = replace_dict[value["name"]]
+                        #class_ind = replace_dict[value["name"]]
                         class_ind = class_names.index(class_ind)
                         # if value["name"] not in check_classes:
                         #     check_classes.append(value["name"])
