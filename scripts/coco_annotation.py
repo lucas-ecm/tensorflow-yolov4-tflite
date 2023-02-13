@@ -41,15 +41,18 @@ def convert_annotation(output, data, data_type = "val"):
                 objects = data[image_inds]["objects"]
                 for key, value in objects.items():
                     if key == 'num_obj': continue
-                    if value["name"] not in class_names:
-                        #class_ind = replace_dict[value["name"]]
-                        class_ind = class_names.index(class_ind)
-                        # if value["name"] not in check_classes:
-                        #     check_classes.append(value["name"])
-                        #     print(value["name"])
-                        # continue
-                    else:
-                        class_ind = class_names.index(value["name"])
+                    class_ind =  value['name']
+                    # if value["name"] not in class_names:
+                    #     print(value['name'])
+                    #     print(class_names)
+                    #     class_ind = replace_dict[value["name"]]
+                    #     class_ind = class_names.index(class_ind)
+                    #     # if value["name"] not in check_classes:
+                    #     #     check_classes.append(value["name"])
+                    #     #     print(value["name"])
+                    #     # continue
+                    # else:
+                    #     class_ind = class_names.index(value["name"])
                     xmin = int(value["bndbox"]["xmin"])
                     xmax = int(value["bndbox"]["xmax"])
                     ymin = int(value["bndbox"]["ymin"])
