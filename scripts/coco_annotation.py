@@ -7,14 +7,14 @@ from absl.flags import FLAGS
 import cv2
 
 flags.DEFINE_string('coco_data', './val2017.pkl', 'path to coco data')
-flags.DEFINE_string('classes', '../data/classes/coco.names', 'path to classes file')
+flags.DEFINE_string('classes', '../data/classes/obj.names', 'path to classes file')
 flags.DEFINE_string('coco_path', "/Volumes/Elements/data/coco_dataset/coco", 'resize images to')
 flags.DEFINE_string('image_path', "images/val2017", 'path to image val')
 flags.DEFINE_string('anno_path_val', '../data/dataset/val2017.txt', 'path to classes file')
 
 def convert_annotation(output, data, data_type = "val"):
     class_names = [c.strip() for c in open(FLAGS.classes).readlines()]
-    replace_dict = {"couch": "sofa", "airplane": "aeroplane", "tv": "tvmonitor", "motorcycle": "motorbike"}
+    replace_dict = {"hole": "sofa", "airplane": "aeroplane", "tv": "tvmonitor", "motorcycle": "motorbike"}
 
     if os.path.exists(output): os.remove(output)
     directory_path = os.path.join(FLAGS.coco_path, FLAGS.image_path)
@@ -41,7 +41,8 @@ def convert_annotation(output, data, data_type = "val"):
                 objects = data[image_inds]["objects"]
                 for key, value in objects.items():
                     if key == 'num_obj': continue
-                    class_ind =  value['name']
+                    # class_ind =  value['name']
+                    class_ind = class_names.index(value["name"])
                     # if value["name"] not in class_names:
                     #     print(value['name'])
                     #     print(class_names)
