@@ -9,6 +9,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--delimiter', type=str, help="delimiter to replace space (default: '-')", default='-')
 parser.add_argument('-y', '--yes', action='store_true', help="force yes confirmation on yes/no query (default: False)", default=False)
+parser.add_argument('-path', '--classes_path', type=str, help="path to *.names class",, default='/content/tensorflow-yolov4-tflite/data/classes/obj.names')
 args = parser.parse_args()
 
 def query_yes_no(question, default="yes", bypass=False):
@@ -75,7 +76,7 @@ def rename_class(current_class_name, new_class_name):
         for line in new_content:
           new_f.write("%s\n" % line)
 
-with open('../../data/classes/coco.names') as f:
+with open(args.classes_path) as f:
     for line in f:
         current_class_name = line.rstrip("\n")
         new_class_name = line.replace(' ', args.delimiter).rstrip("\n")
