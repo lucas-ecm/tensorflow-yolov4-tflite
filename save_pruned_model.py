@@ -116,9 +116,18 @@ def save_tf():
   )
 
   model_for_pruning.summary()
+  model_for_pruning.compile()
  
   model_for_pruning.save(FLAGS.output)
-
+  
+  model_for_export = tfmot.sparsity.keras.strip_pruning(model_for_pruning)
+  
+  model_for_export.save(FLAGS.output+'stripped')
+  
+  print("Size of gzipped non pruned model: %.2f bytes" % (get_gzipped_model_size(model)))
+  print("Size of gzipped pruned model without stripping: %.2f bytes" % (get_gzipped_model_size(model_for_pruning)))
+  print("Size of gzipped pruned model with stripping: %.2f bytes" % (get_gzipped_model_size(model_for_export)))
+  
 def main(_argv):
   save_tf()
 
