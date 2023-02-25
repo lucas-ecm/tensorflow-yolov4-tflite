@@ -23,6 +23,7 @@ def get_gzipped_model_size(model):
   # Returns size of gzipped model, in bytes.
   import os
   import zipfile
+  import tempfile
 
   _, keras_file = tempfile.mkstemp('.h5')
   model.save(keras_file, include_optimizer=False)
