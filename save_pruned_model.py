@@ -19,6 +19,20 @@ flags.DEFINE_float('final_sparsity', 0.8, 'final_sparsity')
 flags.DEFINE_string('framework', 'tf', 'define what framework do you want to convert (tf, trt, tflite)')
 flags.DEFINE_string('model', 'yolov4', 'yolov3 or yolov4')
 
+def get_gzipped_model_size(model):
+  # Returns size of gzipped model, in bytes.
+  import os
+  import zipfile
+
+  _, keras_file = tempfile.mkstemp('.h5')
+  model.save(keras_file, include_optimizer=False)
+
+  _, zipped_file = tempfile.mkstemp('.zip')
+  with zipfile.ZipFile(zipped_file, 'w', compression=zipfile.ZIP_DEFLATED) as f:
+    f.write(keras_file)
+
+  return os.path.getsize(zipped_file)
+
 def save_tf():
   STRIDES, ANCHORS, NUM_CLASS, XYSCALE = utils.load_config(FLAGS)
 
