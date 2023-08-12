@@ -17,7 +17,7 @@ flags.DEFINE_string('framework', 'tf', 'select model type in (tf, tflite, trt)'
 flags.DEFINE_string('model', 'yolov4', 'yolov3 or yolov4')
 flags.DEFINE_boolean('tiny', False, 'yolov3 or yolov3-tiny')
 flags.DEFINE_integer('size', 416, 'resize images to')
-flags.DEFINE_string('annotation_path', "./data/dataset/val2017.txt", 'annotation path')
+flags.DEFINE_string('annotation_path', "/content/tensorflow-yolov4-tflite/data/dataset/test.txt", 'annotation path')
 flags.DEFINE_string('write_image_path', "./data/detection/", 'write image path')
 flags.DEFINE_float('iou', 0.5, 'iou threshold')
 flags.DEFINE_float('score', 0.25, 'score threshold')
@@ -50,8 +50,13 @@ def main(_argv):
         infer = saved_model_loaded.signatures['serving_default']
 
     num_lines = sum(1 for line in open(FLAGS.annotation_path))
-    with open(cfg.TEST.ANNOT_PATH, 'r') as annotation_file:
+    with open( FLAGS.annotation_path, 'r') as annotation_file:
+        print('Detecting...')
+        print(annotation_file)
+        # for a,b in enumerate(annotation_file):
+        #   print(a,b)
         for num, line in enumerate(annotation_file):
+            # print('..')
             annotation = line.strip().split()
             image_path = annotation[0]
             image_name = image_path.split('/')[-1]
@@ -89,7 +94,8 @@ def main(_argv):
                 interpreter.invoke()
                 pred = [interpreter.get_tensor(output_details[i]['index']) for i in range(len(output_details))]
                 if FLAGS.model == 'yolov4' and FLAGS.tiny == True:
-                    boxes, pred_conf = filter_boxes(pred[1], pred[0], score_threshold=0.25)
+                    # boxes, pred_conf = filter_boxes(pred[1], pred[0], score_threshold=0.25)
+                    boxes, pred_conf = filter_boxes(pred[0], pred[1], score_threshold=0.25, input_shape=tf.constant([INPUT_SIZE, INPUT_SIZE]))
                 else:
                     boxes, pred_conf = filter_boxes(pred[0], pred[1], score_threshold=0.25)
             else:
@@ -109,6 +115,8 @@ def main(_argv):
                 score_threshold=FLAGS.score
             )
             boxes, scores, classes, valid_detections = [boxes.numpy(), scores.numpy(), classes.numpy(), valid_detections.numpy()]
+            pred_bbox = [boxes, scores, classes, valid_detections]
+            print(pred_bbox)
 
             # if cfg.TEST.DECTECTED_IMAGE_PATH is not None:
             #     image_result = utils.draw_bbox(np.copy(image), [boxes, scores, classes, valid_detections])
@@ -139,5 +147,4 @@ if __name__ == '__main__':
         app.run(main)
     except SystemExit:
         pass
-
 
