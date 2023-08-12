@@ -18,6 +18,7 @@ flags.DEFINE_string('weights', './checkpoints/yolov4-416',
 flags.DEFINE_string('framework', 'tf', 'select model type in (tf, tflite, trt)'
                     'path to weights file')
 flags.DEFINE_string('model', 'yolov4', 'yolov3 or yolov4')
+flags.DEFINE_string('path_to_append_filename', '/content/val/', 'yolov3 or yolov4')
 flags.DEFINE_boolean('tiny', False, 'yolov3 or yolov3-tiny')
 flags.DEFINE_integer('size', 416, 'resize images to')
 flags.DEFINE_string('annotation_path', "/content/tensorflow-yolov4-tflite/data/dataset/test.txt", 'annotation path')
@@ -146,7 +147,7 @@ def main(_argv):
             #     cv2.imwrite(cfg.TEST.DECTECTED_IMAGE_PATH + image_name, image_result)
             for i in range(valid_detections[0]):
               curr_pred_row = {
-                  'ImageID':'/content/test/'+image_name,
+                  'ImageID':FLAGS.path_to_append_filename+image_name,
                   'LabelName': label_map[int(classes[0][i])],
                   'Conf':scores[0][i] ,
                   'XMin':boxes[0][i][1] ,
