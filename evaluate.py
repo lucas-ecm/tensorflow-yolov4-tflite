@@ -116,7 +116,7 @@ def main(_argv):
             )
             boxes, scores, classes, valid_detections = [boxes.numpy(), scores.numpy(), classes.numpy(), valid_detections.numpy()]
             pred_bbox = [boxes, scores, classes, valid_detections]
-            print(pred_bbox)
+            # print(pred_bbox)
 
             # if cfg.TEST.DECTECTED_IMAGE_PATH is not None:
             #     image_result = utils.draw_bbox(np.copy(image), [boxes, scores, classes, valid_detections])
