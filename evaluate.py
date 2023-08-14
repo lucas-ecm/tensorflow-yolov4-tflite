@@ -148,7 +148,8 @@ def main(_argv):
             for i in range(valid_detections[0]):
               curr_pred_row = {
                   'ImageID':FLAGS.path_to_append_filename+image_name,
-                  'LabelName': label_map[int(classes[0][i])],
+                  # 'LabelName': label_map[int(classes[0][i])],
+                  'LabelName': int(classes[0][i]),
                   'Conf':scores[0][i] ,
                   'XMin':boxes[0][i][1] ,
                   'XMax':boxes[0][i][3] ,
